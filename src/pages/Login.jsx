@@ -1,23 +1,37 @@
-import { useState } from "react"
+import { useState } from "react";
 import { loginUser } from "../service/authService";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 function Login() {
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
   const handleUsernamePassword = async (e) => {
     e.preventDefault();
-    try {
-      const token = await loginUser(username, password);
-      localStorage.getItem("token", token);
-      console.log("Login successful.Token saved");
 
-      setUsername("");
-      setPassword("");
+    const token = await loginUser(username, password);
+    localStorage.setItem("token", token);
 
-    } catch (err) {
+    const decodedClaims = jwtDecode(token);
 
+    if (decodedClaims && decodedClaims.userId) {
+      localStorage.setItem("userId", decodedClaims.userId);
+      console.log("Saved userId in browser memory")
+    } else {
+      console("UserId not valid or is absent")
     }
+    console.log("Token saved, authentication secure. Redirecting user");
+
+
+    setUsername("");
+    setPassword("");
+
+    navigate("/dashboard");
+
   }
 
   return (
