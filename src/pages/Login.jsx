@@ -2,6 +2,8 @@ import { useState } from "react";
 import { loginUser } from "../service/authService";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { useAuth } from "../context/AuthContext";
+
 
 function Login() {
 
@@ -9,23 +11,21 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleUsernamePassword = async (e) => {
     e.preventDefault();
 
     const token = await loginUser(username, password);
-    localStorage.setItem("token", token);
-
     const decodedClaims = jwtDecode(token);
 
     if (decodedClaims && decodedClaims.userId) {
-      localStorage.setItem("userId", decodedClaims.userId);
-      console.log("Saved userId in browser memory")
+      login(token, decodedClaims.userId)
+      console.log("Saved userId && token in browser memory")
     } else {
       console("UserId not valid or is absent")
     }
     console.log("Token saved, authentication secure. Redirecting user");
-
 
     setUsername("");
     setPassword("");
