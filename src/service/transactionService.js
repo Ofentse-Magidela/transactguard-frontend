@@ -1,10 +1,24 @@
 import axios from "axios";
 
-export const sendMoney = async (updateData, token) => {
-  const response = await axios.post(`http://localhost:8080/transact/send`, updateData, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  });
-  return response.data;
+export const sendMoney = async (userId, receiverId, amount, token) => {
+  try {
+    const response = await axios.post(`http://localhost:8080/transact/send`,
+      {
+        senderID: userId,
+        receiverID: receiverId,
+        amount: parseFloat(amount) || 0
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.log("Backend rejected transaction: ", error.response?.data);
+    throw error;
+  }
+
 }

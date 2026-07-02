@@ -15,8 +15,7 @@ function Register() {
     e.preventDefault();
 
     try {
-      const userData = { username, email, numBalance, password }
-      const response = await registerUser(userData);
+      const response = await registerUser(username, email, balance, password);
 
       if (!response) {
         console.log("Something went wrong in registration");
@@ -29,7 +28,7 @@ function Register() {
       navigate("/login")
 
     } catch (error) {
-      console.error("frontend : ", error.response?.data)
+      console.error(error.response?.data)
     }
   }
 

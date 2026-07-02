@@ -3,7 +3,13 @@ import axios from "axios";
 export const loginUser = async (username, password) => {
 
   const response = await axios.post('http://localhost:8080/auth/login',
-    { username, password });
+    { username, password },
+    {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  );
   return response.data;
 
 };
@@ -25,7 +31,7 @@ export const registerUser = async (username, email, balance, password) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Service : ", error.response?.data)
+    console.error(error.response?.data)
     throw error;
   }
 };

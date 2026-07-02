@@ -34,6 +34,9 @@ function Dashboard() {
     logout();
     navigate("/login");
   }
+  const handleTransaction = () => {
+    navigate("/send")
+  }
 
   if (loading) return <div>Loading secure account metrics dashboard</div>;
 
@@ -48,6 +51,9 @@ function Dashboard() {
       <h2>Welcome Back, {profile?.username || "User"}!</h2>
       <p>Account Profile ID: #{profile?.id}</p>
       <p>Available Balance: R {balance ? balance.toFixed(2) : "0.00"}</p>
+      <div>
+        <button onClick={handleTransaction}>Send Money</button>
+      </div>
     </div>
   );
 }
