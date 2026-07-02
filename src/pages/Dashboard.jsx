@@ -14,11 +14,6 @@ function Dashboard() {
 
   useEffect(() => {
 
-    if (!token || !userId) {
-      navigate("/login");
-      return;
-    }
-
     const fetchDashboardData = async () => {
 
       const [profileData, balanceData] = await Promise.all([
