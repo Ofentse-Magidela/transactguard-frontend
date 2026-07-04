@@ -19,11 +19,11 @@ function Login() {
     const token = await loginUser(username, password);
     const decodedClaims = jwtDecode(token);
 
-    if (decodedClaims && decodedClaims.userId) {
-      login(token, decodedClaims.userId)
-      console.log("Saved userId && token in browser memory")
+    if (decodedClaims && decodedClaims.userId && decodedClaims.roles) {
+      login(token, decodedClaims.userId, decodedClaims.roles)
+      console.log("Saved userId, token && role in browser memory")
     } else {
-      console("UserId not valid or is absent")
+      console.log("UserId not valid or is absent")
     }
     console.log("Token saved, authentication secure. Redirecting user");
 
@@ -31,7 +31,6 @@ function Login() {
     setPassword("");
 
     navigate("/dashboard");
-
   }
 
   return (

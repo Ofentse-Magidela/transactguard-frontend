@@ -2,17 +2,33 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import SendMoney from './pages/SendMoney';
 import Register from './pages/Register';
+import AdminPage from './pages/AdminPage';
 import Transactions from './pages/Transactions';
+import NavigationBar from './components/NavigationBar';
 import { Routes, Route } from "react-router-dom";
 import { ProtectedRoute } from './context/ProtectedRoute';
+import { useAuth } from './context/AuthContext';
+
+
 
 function App() {
+  const { isAuthenticated } = useAuth();
   return (
 
     <main>
+      {isAuthenticated && <NavigationBar />}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminPage />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/transactions"
