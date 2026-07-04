@@ -1,11 +1,14 @@
 import { useState } from "react"
 import { sendMoney } from "../service/transactionService";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function SendMoney() {
 
   const [receiverId, setReceiverId] = useState("");
   const [amount, setAmount] = useState("");
+
+  const navigate = useNavigate();
 
   const { token, userId } = useAuth();
 
@@ -20,6 +23,7 @@ function SendMoney() {
       }
       setReceiverId("");
       setAmount("");
+      navigate("/dashboard");
     } catch (error) {
       console.error(error.response?.data)
     }

@@ -1,10 +1,10 @@
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import SendMoney from './pages/SendMoney';
+import Register from './pages/Register';
+import Transactions from './pages/Transactions';
 import { Routes, Route } from "react-router-dom";
 import { ProtectedRoute } from './context/ProtectedRoute';
-import Register from './pages/Register';
-
 
 function App() {
   return (
@@ -13,7 +13,24 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/send" element={<SendMoney />} />
+
+        <Route
+          path="/transactions"
+          element={
+            <ProtectedRoute>
+              <Transactions />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/send"
+          element={
+            <ProtectedRoute>
+              <SendMoney />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/dashboard"
