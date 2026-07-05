@@ -38,23 +38,87 @@ function Dashboard() {
     navigate("/send")
   }
 
-  if (loading) return <div>Loading secure account metrics dashboard</div>;
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <p className="text-slate-500">Loading dashboard...</p>
+      </div>
+    );
+  }
 
   return (
+    <div className="min-h-screen bg-slate-50">
 
-    <div>
-      <div>
-        <h1>TransactGuard Dashboard</h1>
-        <button onClick={handleDashboardLogout}> Logout </button>
+      <div className="max-w-6xl mx-auto p-8">
+
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-slate-900">
+            Welcome Back, {profile?.username} 👋
+          </h2>
+
+          <p className="text-slate-500 mt-2">
+            Here's an overview of your account.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
+
+          <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
+            <p className="text-slate-500 text-sm">
+              Current Balance
+            </p>
+
+            <h2 className="text-4xl font-bold text-blue-600 mt-3">
+              R {balance.toFixed(2)}
+            </h2>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
+
+            <h3 className="font-semibold text-slate-900 mb-4">
+              Account Information
+            </h3>
+
+            <p className="text-slate-600">
+              Username: <span className="font-medium">{profile?.username}</span>
+            </p>
+
+            <p className="text-slate-600 mt-2">
+              User ID: #{profile?.id}
+            </p>
+
+            <p className="text-slate-600 mt-2">
+              Email: {profile?.email}
+            </p>
+
+          </div>
+
+        </div>
+
+        <h3 className="text-xl font-semibold text-slate-900 mb-4">
+          Quick Actions
+        </h3>
+
+        <div className="grid md:grid-cols-3 gap-4">
+
+          <button
+            onClick={handleTransaction}
+            className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl p-5 font-semibold transition"
+          >
+            Send Money
+          </button>
+
+          <button
+            onClick={() => navigate("/transactions")}
+            className="bg-white border border-slate-200 rounded-xl p-5 hover:bg-slate-100 transition"
+          >
+            View Transactions
+          </button>
+
+        </div>
+
       </div>
 
-      <h2>Welcome Back, {profile?.username || "User"}!</h2>
-      <p>Account Profile ID: #{profile?.id}</p>
-      <p>Available Balance: R {balance ? balance.toFixed(2) : "0.00"}</p>
-
-      <div>
-        <button onClick={handleTransaction}>Send Money</button>
-      </div>
     </div>
   );
 }

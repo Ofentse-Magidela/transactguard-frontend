@@ -43,26 +43,113 @@ function Transactions() {
   if (loading) return <div>Fetching Your Transaction History</div>
 
   return (
-    <div>
-      <h1>Transaction History</h1>
+    <div className="min-h-screen bg-slate-50 px-6 py-8">
 
-      <div>
-        <button onClick={() => setFilter("all")}>All</button>
-        <button onClick={() => setFilter("sent")}>Sent</button>
-        <button onClick={() => setFilter("received")}>Received</button>
-      </div>
+      <div className="max-w-5xl mx-auto">
 
-      <div>
-        {getDisplayedTransactions().map(transact => (
-          <div key={transact.id}>
-            <p>Amount: R{transact.amount}</p>
-            <p>Status: {transact.status}</p>
-            <p>Date: {transact.timestamp}</p>
-          </div>
-        ))}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-slate-900">
+            Transaction History
+          </h1>
+
+          <p className="mt-2 text-slate-500">
+            View your incoming and outgoing transactions.
+          </p>
+        </div>
+
+        <div className="flex gap-3 mb-8">
+
+          <button
+            onClick={() => setFilter("all")}
+            className={`px-5 py-2 rounded-xl font-medium transition ${filter === "all"
+              ? "bg-blue-600 text-white"
+              : "bg-white border border-slate-200 hover:bg-slate-100"
+              }`}
+          >
+            All
+          </button>
+
+          <button
+            onClick={() => setFilter("sent")}
+            className={`px-5 py-2 rounded-xl font-medium transition ${filter === "sent"
+              ? "bg-blue-600 text-white"
+              : "bg-white border border-slate-200 hover:bg-slate-100"
+              }`}
+          >
+            Sent
+          </button>
+
+          <button
+            onClick={() => setFilter("received")}
+            className={`px-5 py-2 rounded-xl font-medium transition ${filter === "received"
+              ? "bg-blue-600 text-white"
+              : "bg-white border border-slate-200 hover:bg-slate-100"
+              }`}
+          >
+            Received
+          </button>
+
+        </div>
+
+        <div className="space-y-4">
+
+          {getDisplayedTransactions().length === 0 ? (
+
+            <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-8 text-center">
+              <p className="text-slate-500">
+                No transactions found.
+              </p>
+            </div>
+
+          ) : (
+
+            getDisplayedTransactions().map((transact) => (
+
+              <div
+                key={transact.id}
+                className="bg-white rounded-2xl shadow-md border border-slate-200 p-6 flex justify-between items-center"
+              >
+
+                <div>
+                  <h2 className="font-semibold text-slate-900">
+                    Transaction #{transact.id}
+                  </h2>
+
+                  <p className="text-slate-500 mt-1">
+                    {transact.timestamp}
+                  </p>
+                </div>
+
+                <div className="text-center">
+                  <p className="text-lg font-bold text-slate-900">
+                    R {Number(transact.amount).toFixed(2)}
+                  </p>
+                </div>
+
+                <div>
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${transact.status === "SUCCESSFUL"
+                      ? "bg-green-100 text-green-700"
+                      : transact.status === "CANCELED"
+                        ? "bg-red-100 text-red-700"
+                        : "bg-amber-100 text-amber-700"
+                      }`}
+                  >
+                    {transact.status}
+                  </span>
+                </div>
+
+              </div>
+
+            ))
+
+          )}
+
+        </div>
+
       </div>
 
     </div>
-  )
+  );
 }
 export default Transactions
