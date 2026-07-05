@@ -2,15 +2,20 @@ import axios from "axios";
 
 export const loginUser = async (username, password) => {
 
-  const response = await axios.post('http://localhost:8080/auth/login',
-    { username, password },
-    {
-      headers: {
-        'Content-Type': 'application/json'
+  try {
+    const response = await axios.post('http://localhost:8080/auth/login',
+      { username, password },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
       }
-    }
-  );
-  return response.data;
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Could not fetch login api: ", error.response?.data);
+    throw error;
+  }
 
 };
 

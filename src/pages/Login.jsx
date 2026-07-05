@@ -3,10 +3,9 @@ import { loginUser } from "../service/authService";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { useAuth } from "../context/AuthContext";
-
+import { Link } from "react-router-dom";
 
 function Login() {
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,47 +15,90 @@ function Login() {
   const handleUsernamePassword = async (e) => {
     e.preventDefault();
 
-    const token = await loginUser(username, password);
-    const decodedClaims = jwtDecode(token);
+    try {
+      const token = await loginUser(username, password);
+      const decodedClaims = jwtDecode(token);
 
-    if (decodedClaims && decodedClaims.userId && decodedClaims.roles) {
-      login(token, decodedClaims.userId, decodedClaims.roles)
-      console.log("Saved userId, token && role in browser memory")
-    } else {
-      console.log("UserId not valid or is absent")
+      if (decodedClaims && decodedClaims.userId && decodedClaims.roles) {
+        login(token, decodedClaims.userId, decodedClaims.roles);
+      }
+
+      setUsername("");
+      setPassword("");
+
+      navigate("/dashboard");
+    } catch (error) {
+      console.error(error);
     }
-    console.log("Token saved, authentication secure. Redirecting user");
-
-    setUsername("");
-    setPassword("");
-
-    navigate("/dashboard");
-  }
+  };
 
   return (
-    <div>
-      <h2>Account Login</h2>
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
+      <div className="w-full max-w-md rounded-2xl bg-white shadow-xl p-8 border border-slate-200">
 
-      <form onSubmit={handleUsernamePassword}>
-        <div>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={e => setUsername(e.target.value)} />
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl font-bold text-slate-900">
+            TransactGuard
+          </h1>
+
+          <p className="mt-2 text-slate-500">
+            Secure Banking & Fraud Detection
+          </p>
         </div>
 
-        <div>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={e => setPassword(e.target.value)} />
+        <form onSubmit={handleUsernamePassword} className="space-y-5">
+
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">
+              Username
+            </label>
+
+            <input
+              type="text"
+              placeholder="Enter username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">
+              Password
+            </label>
+
+            <input
+              type="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700 active:scale-[0.99]"
+          >
+            Sign In
+          </button>
+        </form>
+
+        <div className="mt-6 text-center">
+          <p className="text-sm text-slate-500">
+            Don't have an account?
+            <span
+              onClick={() => navigate("/register")}
+              className="ml-1 cursor-pointer font-medium text-blue-600 hover:underline"
+            >
+              Register
+            </span>
+          </p>
         </div>
 
-        <button type="submit">Login</button>
-      </form>
+      </div>
     </div>
-  )
+  );
 }
-export default Login
+
+export default Login;
