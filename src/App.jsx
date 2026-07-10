@@ -5,7 +5,7 @@ import Register from './pages/Register';
 import AdminPage from './pages/AdminPage';
 import Transactions from './pages/Transactions';
 import NavigationBar from './components/NavigationBar';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { ProtectedRoute } from './context/ProtectedRoute';
 import { useAuth } from './context/AuthContext';
 
@@ -18,6 +18,10 @@ function App() {
     <main>
       {isAuthenticated && <NavigationBar />}
       <Routes>
+        <Route
+          path="/"
+          element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />}
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
