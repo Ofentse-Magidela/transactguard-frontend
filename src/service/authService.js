@@ -1,9 +1,10 @@
 import axios from "axios";
+import apiClient from "./apiConfig";
 
 export const loginUser = async (username, password) => {
 
   try {
-    const response = await axios.post('http://localhost:8080/auth/login',
+    const response = await apiClient.post('/auth/login',
       { username, password },
       {
         headers: {
@@ -21,7 +22,7 @@ export const loginUser = async (username, password) => {
 
 export const registerUser = async (username, email, balance, password) => {
   try {
-    const response = await axios.post('http://localhost:8080/auth/register',
+    const response = await apiClient.post('/auth/register',
       {
         username,
         email,

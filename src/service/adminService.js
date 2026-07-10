@@ -1,8 +1,10 @@
 import axios from "axios";
+import apiClient from "./apiConfig"
+
 export const getAllFlags = async (token) => {
 
   try {
-    const response = await axios.get(`http://localhost:8080/admin/flags`, {
+    const response = await apiClient.get(`/admin/flags`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -16,7 +18,7 @@ export const getAllFlags = async (token) => {
 export const resolveFlags = async (flagId, token) => {
 
   try {
-    const response = await axios.put(`http://localhost:8080/admin/resolve/${flagId}`, null, {
+    const response = await apiClient.put(`/admin/resolve/${flagId}`, null, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

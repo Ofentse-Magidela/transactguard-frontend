@@ -1,8 +1,9 @@
 import axios from "axios";
+import apiClient from "./apiConfig";
 
 export const getBalance = async (userId, token) => {
   try {
-    const response = await axios.get(`http://localhost:8080/user/balance/${userId}`, {
+    const response = await apiClient.get(`/user/balance/${userId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -16,7 +17,7 @@ export const getBalance = async (userId, token) => {
 
 export const getUserProfile = async (userId, token) => {
   try {
-    const response = await axios.get(`http://localhost:8080/user/${userId}`, {
+    const response = await apiClient.get(`/user/${userId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -31,7 +32,7 @@ export const getUserProfile = async (userId, token) => {
 export const updateUserProfile = async (userId, updateData, token) => {
 
   try {
-    const response = await axios.put(`http://localhost:8080/user/${userId}`, updateData, {
+    const response = await apiClient.put(`/user/${userId}`, updateData, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

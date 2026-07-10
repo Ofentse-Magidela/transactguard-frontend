@@ -93,7 +93,7 @@ function Register() {
             />
           </div>
 
-          {/* Remove this before deployment */}
+          {/* Will remove this before deployment */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">
               Starting Balance (Testing)
