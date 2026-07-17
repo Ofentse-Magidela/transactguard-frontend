@@ -1,13 +1,8 @@
-import axios from "axios";
 import apiClient from "./apiConfig";
 
-export const getBalance = async (userId, token) => {
+export const getBalance = async (userId) => {
   try {
-    const response = await apiClient.get(`/user/balance/${userId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
+    const response = await apiClient.get(`/user/balance/${userId}`);
     return response.data;
   } catch (error) {
     console.error("Could not fetch balance: ", error.response?.data);
@@ -15,13 +10,9 @@ export const getBalance = async (userId, token) => {
   }
 }
 
-export const getUserProfile = async (userId, token) => {
+export const getUserProfile = async (userId) => {
   try {
-    const response = await apiClient.get(`/user/${userId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
+    const response = await apiClient.get(`/user/${userId}`);
     return response.data;
   } catch (error) {
     console.error("Could not fetch balance: ", error.response?.data);
@@ -29,14 +20,10 @@ export const getUserProfile = async (userId, token) => {
   }
 }
 
-export const updateUserProfile = async (userId, updateData, token) => {
+export const updateUserProfile = async (userId, updateData) => {
 
   try {
-    const response = await apiClient.put(`/user/${userId}`, updateData, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
+    const response = await apiClient.put(`/user/${userId}`, updateData);
     return response.data;
   } catch (error) {
     console.error("Could not fetch balance: ", error.response?.data);

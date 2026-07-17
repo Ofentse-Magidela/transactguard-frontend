@@ -5,18 +5,25 @@ import Register from './pages/Register';
 import AdminPage from './pages/AdminPage';
 import Transactions from './pages/Transactions';
 import NavigationBar from './components/NavigationBar';
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { ProtectedRoute } from './context/ProtectedRoute';
 import { useAuth } from './context/AuthContext';
 
 
 
 function App() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, } = useAuth();
+
+  const location = useLocation();
+
+  const hideNav =
+    location.pathname === "/login" ||
+    location.pathname === "/register";
+
   return (
 
     <main>
-      {isAuthenticated && <NavigationBar />}
+      {isAuthenticated && !hideNav && <NavigationBar />}
       <Routes>
         <Route
           path="/"
@@ -28,7 +35,7 @@ function App() {
         <Route
           path="/admin"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requiredRole="ROLE_ADMIN">
               <AdminPage />
             </ProtectedRoute>
           }

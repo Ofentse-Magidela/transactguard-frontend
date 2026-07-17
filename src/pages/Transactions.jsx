@@ -7,22 +7,17 @@ function Transactions() {
   const [allTransactions, setAllTransactions] = useState({ sent: [], received: [] });
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
-  const { token, userId } = useAuth();
+  const { userId } = useAuth();
 
   useEffect(() => {
 
     const fetchTransactionHistory = async () => {
       try {
 
-        const response = await getTransactionHistory(userId, token);
+        const response = await getTransactionHistory(userId);
 
-        if (!response) {
-          console.log("Corrupted response");
-          return;
-        }
         setAllTransactions(response);
         setLoading(false);
-
 
       } catch (error) {
         console.error("Failed to fetch transactions: ", error.response?.data);
@@ -32,7 +27,7 @@ function Transactions() {
 
     fetchTransactionHistory();
 
-  }, [userId, token]);
+  }, [userId]);
 
   const getDisplayedTransactions = () => {
     if (filter === "sent") return allTransactions.sent;

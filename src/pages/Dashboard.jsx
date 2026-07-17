@@ -10,15 +10,15 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const { token, userId, logout } = useAuth();
+  const { userId } = useAuth();
 
   useEffect(() => {
 
     const fetchDashboardData = async () => {
 
       const [profileData, balanceData] = await Promise.all([
-        getUserProfile(userId, token),
-        getBalance(userId, token)
+        getUserProfile(userId),
+        getBalance(userId)
       ]);
 
       setProfile(profileData);
@@ -28,12 +28,8 @@ function Dashboard() {
 
     fetchDashboardData();
 
-  }, [token, userId, navigate])
+  }, [userId])
 
-  const handleDashboardLogout = () => {
-    logout();
-    navigate("/login");
-  }
   const handleTransaction = () => {
     navigate("/send")
   }

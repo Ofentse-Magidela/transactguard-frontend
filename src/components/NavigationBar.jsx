@@ -8,12 +8,10 @@ function NavigationBar() {
     <nav className="bg-white border-b border-slate-200 shadow-sm">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
 
-        {/* Logo */}
         <h1 className="text-2xl font-bold text-blue-600">
           TransactGuard
         </h1>
 
-        {/* Navigation */}
         <div className="flex items-center gap-6">
 
           <Link

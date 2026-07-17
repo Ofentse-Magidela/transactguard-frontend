@@ -5,14 +5,12 @@ import { getAllFlags, resolveFlags } from "../service/adminService";
 function AdminPage() {
   const [allFlags, setAllFlags] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { token } = useAuth();
 
   useEffect(() => {
 
     const fetchTransactionFlags = async () => {
       try {
-        console.log("token: ", token)
-        const response = await getAllFlags(token);
+        const response = await getAllFlags();
 
         setAllFlags(response);
         setLoading(false);
@@ -25,11 +23,11 @@ function AdminPage() {
     }
     fetchTransactionFlags();
 
-  }, [token])
+  }, [])
 
   const handleResolve = async (flagId) => {
     try {
-      const resolve = await resolveFlags(flagId, token);
+      const resolve = await resolveFlags(flagId);
       setAllFlags(allFlags.filter(flag => flag.id !== flagId))
 
     } catch (error) {

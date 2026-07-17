@@ -1,16 +1,10 @@
-import axios from "axios";
 import apiClient from "./apiConfig";
 
 export const loginUser = async (username, password) => {
 
   try {
     const response = await apiClient.post('/auth/login',
-      { username, password },
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
+      { username, password }
     );
     return response.data;
   } catch (error) {
@@ -28,11 +22,6 @@ export const registerUser = async (username, email, balance, password) => {
         email,
         balance: parseFloat(balance) || 0,
         password
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
       }
     );
     return response.data;

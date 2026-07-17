@@ -10,17 +10,13 @@ function SendMoney() {
 
   const navigate = useNavigate();
 
-  const { token, userId } = useAuth();
+  const { userId } = useAuth();
 
   const handleTransaction = async (e) => {
     e.preventDefault();
     try {
-      const response = await sendMoney(userId, receiverId, amount, token);
+      const response = await sendMoney(userId, receiverId, amount);
 
-      if (!response) {
-        console.log("frontend: response not what is expected");
-        return;
-      }
       setReceiverId("");
       setAmount("");
       navigate("/dashboard");

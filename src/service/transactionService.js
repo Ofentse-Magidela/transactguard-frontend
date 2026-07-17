@@ -1,19 +1,12 @@
-import axios from "axios";
 import apiClient from "./apiConfig";
 
-export const sendMoney = async (userId, receiverId, amount, token) => {
+export const sendMoney = async (userId, receiverId, amount) => {
   try {
     const response = await apiClient.post(`/transact/send`,
       {
         senderID: userId,
         receiverID: receiverId,
         amount: parseFloat(amount) || 0
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
       }
     );
     return response.data;
@@ -23,16 +16,9 @@ export const sendMoney = async (userId, receiverId, amount, token) => {
   }
 }
 
-export const getTransactionHistory = async (userId, token) => {
+export const getTransactionHistory = async (userId) => {
   try {
-    const response = await apiClient.get(`/transact/history/${userId}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      }
-    );
+    const response = await apiClient.get(`/transact/history/${userId}`);
 
     return response.data;
   } catch (error) {
