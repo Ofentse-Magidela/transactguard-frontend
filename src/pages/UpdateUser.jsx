@@ -23,7 +23,13 @@ function UpdateUser() {
       return;
     }
 
-    setLoading(true)
+    setLoading(true);
+
+    const updateData = {};
+
+    if (username !== null) updateData.username = username;
+    if (email !== null) updateData.email = email;
+    if (password !== null) updateData.password = password;
 
     try {
 

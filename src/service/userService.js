@@ -23,7 +23,7 @@ export const getUserProfile = async (userId) => {
 export const updateUserProfile = async (userId, updateData) => {
 
   try {
-    const response = await apiClient.put(`/user/${userId}`, updateData);
+    const response = await apiClient.put(`/user/update/${userId}`, updateData);
     return response.data;
   } catch (error) {
     console.error("Could not Update UserProfile: ", error.response?.data);

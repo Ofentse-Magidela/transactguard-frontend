@@ -6,24 +6,24 @@ import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleUsernamePassword = async (e) => {
+  const handleEmailPassword = async (e) => {
     e.preventDefault();
 
     try {
-      const token = await loginUser(username, password);
+      const token = await loginUser(email, password);
       const decodedClaims = jwtDecode(token);
 
       if (decodedClaims && decodedClaims.userId && decodedClaims.roles) {
         login(token, decodedClaims.userId, decodedClaims.roles);
       }
 
-      setUsername("");
+      setEmail("");
       setPassword("");
 
       navigate("/dashboard");
@@ -46,18 +46,18 @@ function Login() {
           </p>
         </div>
 
-        <form onSubmit={handleUsernamePassword} className="space-y-5">
+        <form onSubmit={handleEmailPassword} className="space-y-5">
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">
-              Username
+              Email
             </label>
 
             <input
-              type="text"
-              placeholder="Enter username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
             />
           </div>
@@ -87,12 +87,12 @@ function Login() {
         <div className="mt-6 text-center">
           <p className="text-sm text-slate-500">
             Don't have an account?
-            <span
+            <Link
               onClick={() => navigate("/register")}
               className="ml-1 cursor-pointer font-medium text-blue-600 hover:underline"
             >
               Register
-            </span>
+            </Link>
           </p>
         </div>
 
