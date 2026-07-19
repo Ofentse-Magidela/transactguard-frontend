@@ -8,6 +8,7 @@ import NavigationBar from './components/NavigationBar';
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { ProtectedRoute } from './context/ProtectedRoute';
 import { useAuth } from './context/AuthContext';
+import UpdateUser from './pages/UpdateUser';
 
 
 
@@ -64,6 +65,15 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/updateInfo"
+          element={
+            <ProtectedRoute>
+              <UpdateUser />
             </ProtectedRoute>
           }
         />

@@ -26,7 +26,8 @@ export const updateUserProfile = async (userId, updateData) => {
     const response = await apiClient.put(`/user/${userId}`, updateData);
     return response.data;
   } catch (error) {
-    console.error("Could not fetch balance: ", error.response?.data);
+    console.error("Could not Update UserProfile: ", error.response?.data);
     throw error;
   }
 }
+
