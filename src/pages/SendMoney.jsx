@@ -8,6 +8,7 @@ function SendMoney() {
   const [receiverId, setReceiverId] = useState("");
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const navigate = useNavigate();
 
@@ -20,9 +21,14 @@ function SendMoney() {
     try {
       const response = await sendMoney(userId, receiverId, amount);
 
+      setSuccess(true);
+
       setReceiverId("");
       setAmount("");
-      navigate("/dashboard");
+
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 2000);
     } catch (error) {
       console.error(error.response?.data)
     } finally {
@@ -31,65 +37,94 @@ function SendMoney() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex justify-center items-center px-4">
+    <div className="min-h-screen bg-slate-50">
+      <div className="max-w-3xl mx-auto px-6 py-10">
 
-      <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl border border-slate-200 p-8">
-
-        <div className="mb-8 text-center">
+        <div className="mb-8">
           <h1 className="text-3xl font-bold text-slate-900">
-            Send Money
+            Transfer Money
           </h1>
 
           <p className="mt-2 text-slate-500">
-            Transfer funds securely to another account.
+            Send funds securely to another TransactGuard account.
           </p>
         </div>
 
-        <form onSubmit={handleTransaction} className="space-y-6">
+        <div className="rounded-2xl border border-slate-200 bg-white shadow-md">
 
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
-              Receiver ID
-            </label>
+          <div className="border-b border-slate-200 px-8 py-6">
+            <h2 className="text-xl font-semibold text-slate-900">
+              New Transfer
+            </h2>
 
-            <input
-              disabled={loading}
-              type="number"
-              placeholder="Enter receiver's ID"
-              value={receiverId}
-              onChange={(e) => setReceiverId(e.target.value)}
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
-            />
+            <p className="mt-1 text-sm text-slate-500">
+              Double-check the recipient ID and transfer amount before submitting.
+            </p>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
-              Amount (ZAR)
-            </label>
-
-            <input
-              disabled={loading}
-              type="number"
-              placeholder="0.00"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
-            />
-          </div>
-
-          <button
-            disabled={loading}
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition"
+          <form
+            onSubmit={handleTransaction}
+            className="space-y-6 p-8"
           >
-            {loading ? "Sending..." : "Send Money"}
 
-          </button>
+            <div>
+              <label className="mb-2 block font-medium text-slate-700">
+                Recipient ID
+              </label>
 
-        </form>
+              <input
+                disabled={loading}
+                type="number"
+                placeholder="Enter recipient ID"
+                value={receiverId}
+                onChange={(e) => setReceiverId(e.target.value)}
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block font-medium text-slate-700">
+                Transfer Amount (ZAR)
+              </label>
+
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-medium">
+                  R
+                </span>
+
+                <input
+                  disabled={loading}
+                  type="number"
+                  placeholder="0.00"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  className="w-full rounded-xl border border-slate-300 py-3 pl-10 pr-4 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100"
+                />
+              </div>
+            </div>
+
+            <div className="rounded-xl bg-slate-100 p-4">
+              <p className="text-sm text-slate-600">
+                Transfers are processed immediately. Ensure the recipient ID is
+                correct before sending funds.
+              </p>
+            </div>
+
+            <div className="flex justify-end">
+              <button
+                disabled={loading}
+                type="submit"
+                className="rounded-xl bg-blue-600 px-8 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-400"
+              >
+                {loading ? "Sending..." : "Send Money"}
+              </button>
+            </div>
+
+          </form>
+
+        </div>
 
       </div>
-
     </div>
   );
 
