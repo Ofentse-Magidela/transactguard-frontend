@@ -8,12 +8,15 @@ import { Link } from "react-router-dom";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const handleEmailPassword = async (e) => {
     e.preventDefault();
+
+    setLoading(true)
 
     try {
       const token = await loginUser(email, password);
@@ -29,7 +32,10 @@ function Login() {
       navigate("/dashboard");
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
+
   };
 
   return (
@@ -54,6 +60,7 @@ function Login() {
             </label>
 
             <input
+              disabled={loading}
               type="email"
               placeholder="Enter your email"
               value={email}
@@ -68,6 +75,7 @@ function Login() {
             </label>
 
             <input
+              disabled={loading}
               type="password"
               placeholder="Enter password"
               value={password}
@@ -77,10 +85,11 @@ function Login() {
           </div>
 
           <button
+            disabled={loading}
             type="submit"
             className="w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700 active:scale-[0.99]"
           >
-            Sign In
+            {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
 

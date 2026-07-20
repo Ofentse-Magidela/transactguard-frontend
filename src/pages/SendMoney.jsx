@@ -7,6 +7,7 @@ function SendMoney() {
 
   const [receiverId, setReceiverId] = useState("");
   const [amount, setAmount] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -14,6 +15,8 @@ function SendMoney() {
 
   const handleTransaction = async (e) => {
     e.preventDefault();
+
+    setLoading(true)
     try {
       const response = await sendMoney(userId, receiverId, amount);
 
@@ -22,6 +25,8 @@ function SendMoney() {
       navigate("/dashboard");
     } catch (error) {
       console.error(error.response?.data)
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -48,6 +53,7 @@ function SendMoney() {
             </label>
 
             <input
+              disabled={loading}
               type="number"
               placeholder="Enter receiver's ID"
               value={receiverId}
@@ -62,6 +68,7 @@ function SendMoney() {
             </label>
 
             <input
+              disabled={loading}
               type="number"
               placeholder="0.00"
               value={amount}
@@ -71,10 +78,12 @@ function SendMoney() {
           </div>
 
           <button
+            disabled={loading}
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition"
           >
-            Send Money
+            {loading ? "Sending..." : "Send Money"}
+
           </button>
 
         </form>

@@ -23,13 +23,7 @@ function UpdateUser() {
       return;
     }
 
-    setLoading(true);
-
-    const updateData = {};
-
-    if (username !== null) updateData.username = username;
-    if (email !== null) updateData.email = email;
-    if (password !== null) updateData.password = password;
+    setLoading(true)
 
     try {
 
@@ -48,52 +42,110 @@ function UpdateUser() {
   }
 
   return (
-    <div>
-      <h1>Update Information</h1>
+    <div className="min-h-screen bg-slate-50">
+      <div className="max-w-3xl mx-auto px-6 py-10">
 
-      <form onSubmit={handleSave}>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-slate-900">
+            Account Settings
+          </h1>
 
-        <div>
-          <label>Username</label>
-
-          <input
-            disabled={loading}
-            type="text"
-            placeholder="Choose a username"
-            value={username ?? ""}
-            onChange={(e) => setUsername(e.target.value === "" ? null : e.target.value)}
-          />
+          <p className="mt-2 text-slate-500">
+            Update your account information below.
+          </p>
         </div>
 
-        <div>
-          <label>Email</label>
+        <div className="rounded-2xl border border-slate-200 bg-white shadow-md">
 
-          <input
-            disabled={loading}
-            type="email"
-            placeholder="you@example.com"
-            value={email ?? ""}
-            onChange={(e) => setEmail(e.target.value === "" ? null : e.target.value)}
-          />
+          <div className="border-b border-slate-200 px-8 py-6">
+            <h2 className="text-xl font-semibold text-slate-900">
+              Profile Information
+            </h2>
+
+            <p className="mt-1 text-sm text-slate-500">
+              Leave any field empty if you don't want to change it.
+            </p>
+          </div>
+
+          <form
+            onSubmit={handleSave}
+            className="space-y-6 p-8"
+          >
+
+            <div>
+              <label className="mb-2 block font-medium text-slate-700">
+                Username
+              </label>
+
+              <input
+                disabled={loading}
+                type="text"
+                placeholder="Choose a username"
+                value={username ?? ""}
+                onChange={(e) =>
+                  setUsername(
+                    e.target.value === "" ? null : e.target.value
+                  )
+                }
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block font-medium text-slate-700">
+                Email
+              </label>
+
+              <input
+                disabled={loading}
+                type="email"
+                placeholder="you@example.com"
+                value={email ?? ""}
+                onChange={(e) =>
+                  setEmail(
+                    e.target.value === "" ? null : e.target.value
+                  )
+                }
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block font-medium text-slate-700">
+                New Password
+              </label>
+
+              <input
+                disabled={loading}
+                type="password"
+                placeholder="Enter a new password"
+                value={password ?? ""}
+                onChange={(e) =>
+                  setPassword(
+                    e.target.value === "" ? null : e.target.value
+                  )
+                }
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100"
+              />
+            </div>
+
+            <div className="flex justify-end pt-2">
+              <button
+                type="submit"
+                disabled={loading}
+                className="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-400"
+              >
+                {loading ? "Saving..." : "Save Changes"}
+              </button>
+            </div>
+
+          </form>
+
         </div>
 
-        <div>
-          <label>Password</label>
-
-          <input
-            disabled={loading}
-            type="password"
-            placeholder="Create a password"
-            value={password ?? ""}
-            onChange={(e) => setPassword(e.target.value === "" ? null : e.target.value)}
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? "Saving..." : "Save"}
-        </button>
-      </form>
+      </div>
     </div>
-  )
+  );
 }
 
 export default UpdateUser
