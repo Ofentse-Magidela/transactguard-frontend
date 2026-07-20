@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { sendMoney } from "../service/transactionService";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ function SendMoney() {
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const redirectTimeout = useRef(null);
 
   const navigate = useNavigate();
 
@@ -26,9 +27,9 @@ function SendMoney() {
       setReceiverId("");
       setAmount("");
 
-      setTimeout(() => {
+      redirectTimeout.current = setTimeout(() => {
         navigate("/dashboard");
-      }, 2000);
+      }, 5000);
     } catch (error) {
       console.error(error.response?.data)
     } finally {
@@ -62,65 +63,97 @@ function SendMoney() {
             </p>
           </div>
 
-          <form
-            onSubmit={handleTransaction}
-            className="space-y-6 p-8"
-          >
+          {success ? (
+            <div className="p-10 text-center">
 
-            <div>
-              <label className="mb-2 block font-medium text-slate-700">
-                Recipient ID
-              </label>
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+                <span className="text-3xl">✅</span>
+              </div>
 
-              <input
-                disabled={loading}
-                type="number"
-                placeholder="Enter recipient ID"
-                value={receiverId}
-                onChange={(e) => setReceiverId(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100"
-              />
+              <h2 className="text-2xl font-bold text-slate-900">
+                Money Sent Successfully
+              </h2>
+
+              <p className="mt-2 text-slate-500">
+                Your transfer has been completed successfully.
+              </p>
+
+              <p className="mt-6 text-sm text-slate-400">
+                Redirecting to your dashboard...
+              </p>
+
+              <button
+                onClick={() => {
+                  clearTimeout(redirectTimeout.current);
+                  navigate("/dashboard")
+                }}
+                className="mt-6 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700"
+              >
+                Return Now
+              </button>
+
             </div>
+          ) : (
+            <form
+              onSubmit={handleTransaction}
+              className="space-y-6 p-8"
+            >
 
-            <div>
-              <label className="mb-2 block font-medium text-slate-700">
-                Transfer Amount (ZAR)
-              </label>
-
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-medium">
-                  R
-                </span>
+              <div>
+                <label className="mb-2 block font-medium text-slate-700">
+                  Recipient ID
+                </label>
 
                 <input
                   disabled={loading}
                   type="number"
-                  placeholder="0.00"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  className="w-full rounded-xl border border-slate-300 py-3 pl-10 pr-4 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100"
+                  placeholder="Enter recipient ID"
+                  value={receiverId}
+                  onChange={(e) => setReceiverId(e.target.value)}
+                  className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100"
                 />
               </div>
-            </div>
 
-            <div className="rounded-xl bg-slate-100 p-4">
-              <p className="text-sm text-slate-600">
-                Transfers are processed immediately. Ensure the recipient ID is
-                correct before sending funds.
-              </p>
-            </div>
+              <div>
+                <label className="mb-2 block font-medium text-slate-700">
+                  Transfer Amount (ZAR)
+                </label>
 
-            <div className="flex justify-end">
-              <button
-                disabled={loading}
-                type="submit"
-                className="rounded-xl bg-blue-600 px-8 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-400"
-              >
-                {loading ? "Sending..." : "Send Money"}
-              </button>
-            </div>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-medium">
+                    R
+                  </span>
 
-          </form>
+                  <input
+                    disabled={loading}
+                    type="number"
+                    placeholder="0.00"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    className="w-full rounded-xl border border-slate-300 py-3 pl-10 pr-4 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100"
+                  />
+                </div>
+              </div>
+
+              <div className="rounded-xl bg-slate-100 p-4">
+                <p className="text-sm text-slate-600">
+                  Transfers are processed immediately. Ensure the recipient ID is
+                  correct before sending funds.
+                </p>
+              </div>
+
+              <div className="flex justify-end">
+                <button
+                  disabled={loading}
+                  type="submit"
+                  className="rounded-xl bg-blue-600 px-8 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-400"
+                >
+                  {loading ? "Sending..." : "Send Money"}
+                </button>
+              </div>
+
+            </form>
+          )}
 
         </div>
 

@@ -36,8 +36,43 @@ function Dashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <p className="text-slate-500">Loading dashboard...</p>
+      <div className="min-h-screen bg-slate-50">
+        <div className="max-w-6xl mx-auto p-8 animate-pulse">
+
+          <div className="mb-8">
+            <div className="h-9 w-80 rounded bg-slate-200"></div>
+            <div className="mt-3 h-5 w-56 rounded bg-slate-200"></div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
+              <div className="h-4 w-28 rounded bg-slate-200"></div>
+              <div className="mt-4 h-10 w-40 rounded bg-slate-200"></div>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
+              <div className="h-5 w-40 rounded bg-slate-200 mb-5"></div>
+
+              <div className="space-y-4">
+                <div className="h-4 w-60 rounded bg-slate-200"></div>
+                <div className="h-4 w-40 rounded bg-slate-200"></div>
+                <div className="h-4 w-72 rounded bg-slate-200"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <div className="mb-4">
+            <div className="h-7 w-40 rounded bg-slate-200"></div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-4">
+            <div className="h-16 rounded-xl bg-slate-200"></div>
+            <div className="h-16 rounded-xl bg-slate-200"></div>
+          </div>
+
+        </div>
       </div>
     );
   }

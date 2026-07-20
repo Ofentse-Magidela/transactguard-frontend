@@ -35,7 +35,48 @@ function Transactions() {
     return [...allTransactions.sent, ...allTransactions.received];
   }
 
-  if (loading) return <div>Fetching Your Transaction History</div>
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50 px-6 py-8">
+        <div className="max-w-5xl mx-auto animate-pulse">
+
+          <div className="mb-8">
+            <div className="h-9 w-80 rounded bg-slate-200"></div>
+            <div className="mt-3 h-5 w-64 rounded bg-slate-200"></div>
+          </div>
+
+          <div className="flex gap-3 mb-8">
+            <div className="h-10 w-20 rounded-xl bg-slate-200"></div>
+            <div className="h-10 w-20 rounded-xl bg-slate-200"></div>
+            <div className="h-10 w-24 rounded-xl bg-slate-200"></div>
+          </div>
+
+          <div className="space-y-4">
+
+            {[1, 2, 3, 4].map((item) => (
+              <div
+                key={item}
+                className="bg-white rounded-2xl border border-slate-200 shadow-md p-6 flex justify-between items-center"
+              >
+
+                <div>
+                  <div className="h-5 w-36 rounded bg-slate-200"></div>
+                  <div className="mt-3 h-4 w-28 rounded bg-slate-200"></div>
+                </div>
+
+                <div className="h-6 w-24 rounded bg-slate-200"></div>
+
+                <div className="h-8 w-28 rounded-full bg-slate-200"></div>
+
+              </div>
+            ))}
+
+          </div>
+
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 px-6 py-8">
