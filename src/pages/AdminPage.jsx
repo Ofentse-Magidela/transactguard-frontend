@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../context/AuthContext";
 import { getAllFlags, resolveFlags } from "../service/adminService";
 
 function AdminPage() {
   const [allFlags, setAllFlags] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [resolve, setResolve] = useState(null);
 
   useEffect(() => {
 
@@ -26,17 +26,62 @@ function AdminPage() {
   }, [])
 
   const handleResolve = async (flagId) => {
+    setResolve(flagId)
     try {
-      const resolve = await resolveFlags(flagId);
+      await resolveFlags(flagId);
       setAllFlags(allFlags.filter(flag => flag.id !== flagId))
 
     } catch (error) {
       console.error("Flag was not resolved: ", error.response?.data)
+    } finally {
+      setResolve(null);
     }
 
   }
 
-  if (loading) return <div>Fetching Flagged Transactions</div>
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50 px-6 py-8 animate-pulse">
+        <div className="max-w-5xl mx-auto">
+
+          <div className="mb-8">
+            <div className="h-9 w-72 rounded bg-slate-200"></div>
+            <div className="mt-3 h-4 w-96 rounded bg-slate-200"></div>
+          </div>
+
+          <div className="space-y-5">
+
+            {[1, 2, 3].map((item) => (
+              <div
+                key={item}
+                className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md flex justify-between items-center"
+              >
+                <div className="space-y-3 w-full">
+
+                  <div className="flex gap-3">
+                    <div className="h-7 w-24 rounded-full bg-slate-200"></div>
+                    <div className="h-7 w-40 rounded bg-slate-200"></div>
+                  </div>
+
+                  <div className="h-6 w-72 rounded bg-slate-200"></div>
+
+                  <div className="h-4 w-48 rounded bg-slate-200"></div>
+                  <div className="h-4 w-36 rounded bg-slate-200"></div>
+                  <div className="h-4 w-56 rounded bg-slate-200"></div>
+
+                </div>
+
+                <div className="ml-8 h-12 w-32 rounded-xl bg-slate-200"></div>
+
+              </div>
+            ))}
+
+          </div>
+
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 px-6 py-8">
@@ -109,10 +154,14 @@ function AdminPage() {
                 </div>
 
                 <button
+                  disabled={resolve === flag.id}
                   onClick={() => handleResolve(flag.id)}
-                  className="bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-3 rounded-xl transition"
+                  className={`px-5 py-3 rounded-xl font-semibold text-white transition ${resolve === flag.id
+                    ? "bg-green-400 cursor-not-allowed"
+                    : "bg-green-600 hover:bg-green-700"
+                    }`}
                 >
-                  Resolve
+                  {resolve === flag.id ? "Resolving..." : "Resolve"}
                 </button>
 
               </div>
