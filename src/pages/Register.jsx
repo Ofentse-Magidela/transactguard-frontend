@@ -161,11 +161,23 @@ function Register() {
                 disabled={loading}
                 type="number"
                 value={balance}
-                onChange={(e) => setBalance(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 py-3 pl-10 pr-4 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100"
-              />
+                onChange={(e) => {
+                  setBalance(e.target.value)
 
+                  if (errorText.balance) setErrorText(prev => ({ ...prev, balance: undefined }));
+                }}
+                className={`w-full rounded-xl border py-3 pl-10 pr-4 outline-none transition disabled:bg-slate-100
+                  ${errorText.balance
+                    ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                    : "border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                  }`}
+              />
             </div>
+            {errorText.balance && (
+              <p className="mt-2 text-sm text-red-600">
+                {errorText.balance}
+              </p>
+            )}
           </div>
 
           <button

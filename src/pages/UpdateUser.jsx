@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { updateUserProfile } from "../service/userService";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 
 function UpdateUser() {
@@ -11,9 +10,9 @@ function UpdateUser() {
   const [password, setPassword] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState({});
+  const [success, setSuccess] = useState(false);
 
   const { userId } = useAuth();
-  const navigate = useNavigate();
   const updateData = { username, email, password };
 
   const handleSave = async (e) => {
@@ -34,10 +33,11 @@ function UpdateUser() {
 
       await updateUserProfile(userId, updateData);
 
+      setSuccess(true);
       setEmail(null);
       setPassword(null);
       setUsername(null);
-      navigate("/dashboard");
+
 
     } catch (error) {
       setErrorText(error.response?.data?.errors);
@@ -91,7 +91,7 @@ function UpdateUser() {
                   setUsername(
                     e.target.value === "" ? null : e.target.value
                   )
-
+                  setSuccess(false);
                   if (errorText.username) setErrorText(prev => ({ ...prev, username: undefined, form: undefined }))
                 }}
 
@@ -124,6 +124,7 @@ function UpdateUser() {
                     e.target.value === "" ? null : e.target.value
                   )
 
+                  setSuccess(false);
                   if (errorText.email) setErrorText(prev => ({ ...prev, email: undefined, form: undefined }))
                 }}
                 className={`w-full rounded-xl border px-4 py-3 outline-none transition disabled:bg-slate-100 
@@ -155,6 +156,7 @@ function UpdateUser() {
                     e.target.value === "" ? null : e.target.value
                   )
 
+                  setSuccess(false);
                   if (errorText.password) setErrorText(prev => ({ ...prev, password: undefined, form: undefined }))
                 }}
                 className={`w-full rounded-xl border px-4 py-3 outline-none transition disabled:bg-slate-100 
@@ -178,6 +180,15 @@ function UpdateUser() {
                 </p>
               </div>
             )}
+
+            {success && (
+              <div className="rounded-xl border border-green-200 bg-green-50 p-3">
+                <p className="text-sm text-green-700">
+                  Profile updated successfully.
+                </p>
+              </div>
+            )}
+
             <div className="flex justify-end pt-2">
 
               <button
