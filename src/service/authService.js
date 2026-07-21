@@ -8,7 +8,7 @@ export const loginUser = async (email, password) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Could not fetch login api: ", error.response?.data);
+    console.error("Login Failed: ", error.response?.data);
     throw error;
   }
 

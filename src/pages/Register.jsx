@@ -9,6 +9,7 @@ function Register() {
   const [email, setEmail] = useState("");
   const [balance, setBalance] = useState(0.00);
   const [loading, setLoading] = useState(false)
+  const [errorText, setErrorText] = useState({});
 
   const navigate = useNavigate();
 
@@ -16,6 +17,7 @@ function Register() {
     e.preventDefault();
 
     setLoading(true);
+    setErrorText({});
 
     try {
       const response = await registerUser(username, email, balance, password);
@@ -31,7 +33,8 @@ function Register() {
       navigate("/login")
 
     } catch (error) {
-      console.error(error.response?.data)
+      setErrorText(error.response?.data?.errors || {});
+
     } finally {
       setLoading(false);
     }
@@ -67,9 +70,23 @@ function Register() {
               type="text"
               placeholder="Choose a username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100"
+              onChange={(e) => {
+                setUsername(e.target.value)
+                if (errorText.username) setErrorText(prev => ({ ...prev, username: undefined }))
+              }}
+              className={`w-full rounded-xl border px-4 py-3 outline-none transition disabled:bg-slate-100 
+                ${errorText.username
+                  ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                  : "border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                }`
+              }
             />
+
+            {errorText.username && (
+              <p className="mt-2 text-sm text-red-600">
+                {errorText.username}
+              </p>
+            )}
           </div>
 
           <div>
@@ -79,12 +96,26 @@ function Register() {
 
             <input
               disabled={loading}
-              type="email"
+              type="text"
               placeholder="you@example.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100"
+              onChange={(e) => {
+                setEmail(e.target.value)
+                if (errorText.email) setErrorText(prev => ({ ...prev, email: undefined }))
+              }}
+              className={`w-full rounded-xl border px-4 py-3 outline-none transition disabled:bg-slate-100 
+                ${errorText.email
+                  ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                  : "border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                }`
+              }
             />
+
+            {errorText.email && (
+              <p className="mt-2 text-sm text-red-600">
+                {errorText.email}
+              </p>
+            )}
           </div>
 
           <div>
@@ -97,9 +128,23 @@ function Register() {
               type="password"
               placeholder="Create a password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100"
+              onChange={(e) => {
+                setPassword(e.target.value)
+                if (errorText.password) setErrorText(prev => ({ ...prev, password: undefined }))
+              }}
+              className={`w-full rounded-xl border px-4 py-3 outline-none transition disabled:bg-slate-100 
+                ${errorText.password
+                  ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                  : "border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                }`
+              }
             />
+
+            {errorText.password && (
+              <p className="mt-2 text-sm text-red-600">
+                {errorText.password}
+              </p>
+            )}
           </div>
 
           <div>
@@ -119,6 +164,7 @@ function Register() {
                 onChange={(e) => setBalance(e.target.value)}
                 className="w-full rounded-xl border border-slate-300 py-3 pl-10 pr-4 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100"
               />
+
             </div>
           </div>
 

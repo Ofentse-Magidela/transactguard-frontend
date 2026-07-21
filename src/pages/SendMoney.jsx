@@ -9,6 +9,7 @@ function SendMoney() {
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [errorText, setErrorText] = useState({})
   const redirectTimeout = useRef(null);
 
   const navigate = useNavigate();
@@ -17,10 +18,11 @@ function SendMoney() {
 
   const handleTransaction = async (e) => {
     e.preventDefault();
+    setErrorText({});
 
     setLoading(true)
     try {
-      const response = await sendMoney(userId, receiverId, amount);
+      await sendMoney(userId, receiverId, amount);
 
       setSuccess(true);
 
@@ -31,7 +33,7 @@ function SendMoney() {
         navigate("/dashboard");
       }, 5000);
     } catch (error) {
-      console.error(error.response?.data)
+      setErrorText(error.response?.data?.errors || {});
     } finally {
       setLoading(false);
     }
@@ -85,11 +87,11 @@ function SendMoney() {
               <button
                 onClick={() => {
                   clearTimeout(redirectTimeout.current);
-                  navigate("/dashboard")
+                  setSuccess(false)
                 }}
                 className="mt-6 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700"
               >
-                Return Now
+                Stay On Page
               </button>
 
             </div>
@@ -109,9 +111,23 @@ function SendMoney() {
                   type="number"
                   placeholder="Enter recipient ID"
                   value={receiverId}
-                  onChange={(e) => setReceiverId(e.target.value)}
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100"
+                  onChange={(e) => {
+                    setReceiverId(e.target.value);
+                    if (errorText.receiverID) setErrorText(prev => ({ ...prev, receiverID: undefined }))
+                  }}
+                  className={`w-full rounded-xl border px-4 py-3 outline-none transition disabled:bg-slate-100 
+                    ${errorText.receiverID
+                      ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                      : "border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                    }`
+                  }
                 />
+
+                {errorText.receiverID && (
+                  <p className="mt-2 text-sm text-red-600">
+                    {errorText.receiverID}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -120,7 +136,7 @@ function SendMoney() {
                 </label>
 
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-medium">
+                  <span className="absolute left-4 inset-y-0 flex items-center text-slate-500 font-medium">
                     R
                   </span>
 
@@ -129,10 +145,23 @@ function SendMoney() {
                     type="number"
                     placeholder="0.00"
                     value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    className="w-full rounded-xl border border-slate-300 py-3 pl-10 pr-4 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100"
+                    onChange={(e) => {
+                      setAmount(e.target.value);
+                      if (errorText.amount) setErrorText(prev => ({ ...prev, amount: undefined }))
+                    }}
+                    className={`w-full rounded-xl border pl-10 pr-4 py-3 outline-none transition disabled:bg-slate-100 
+                      ${errorText.amount
+                        ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                        : "border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                      }`
+                    }
                   />
                 </div>
+                {errorText.amount && (
+                  <p className="mt-2 text-sm text-red-600">
+                    {errorText.amount}
+                  </p>
+                )}
               </div>
 
               <div className="rounded-xl bg-slate-100 p-4">
