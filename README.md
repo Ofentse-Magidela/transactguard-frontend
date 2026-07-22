@@ -132,3 +132,9 @@ GitHub: https://github.com/Ofentse-Magidela
 ## 📄 License
 
 This project is for educational and portfolio purposes.
+
+---
+
+## AI Assistance
+
+AI tools were used to accelerate parts of the frontend development process, primarily for UI styling, layout refinement, and general productivity. All application logic, component integration, API communication, authentication flow, state management, and project architecture were implemented, reviewed, and adapted by the author.
