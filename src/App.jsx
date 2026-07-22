@@ -9,6 +9,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { ProtectedRoute } from './context/ProtectedRoute';
 import { useAuth } from './context/AuthContext';
 import UpdateUser from './pages/UpdateUser';
+import NotFound from './pages/NotFound';
 
 
 
@@ -77,6 +78,8 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </main>
   )
