@@ -1,139 +1,82 @@
-# TransactGuard Frontend
+# 🛡️ TransactGuard Client Application
 
-A modern React frontend for **TransactGuard**, a secure banking application demonstrating authentication, transaction management, fraud detection, and role-based administration.
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)
+![Axios](https://img.shields.io/badge/Axios-HTTP%20Client-5A29E4)
+![JWT](https://img.shields.io/badge/JWT-Authentication-orange)
+![Status](https://img.shields.io/badge/Status-Completed-success)
 
-> **Backend Repository:** https://github.com/Ofentse-Magidela/transactguard  
-> **Frontend Repository:** https://github.com/Ofentse-Magidela/transactguard-frontend
-
----
-
-## Overview
-
-TransactGuard is a full-stack banking application built to demonstrate backend engineering concepts while providing a clean and responsive user interface.
-
-The frontend communicates with a Spring Boot REST API secured with JWT authentication and provides an intuitive interface for users and administrators.
+Frontend application for **TransactGuard**, a secure banking platform built with React and Vite. The application communicates with a Spring Boot backend using JWT authentication and provides a responsive interface for managing accounts, transactions, and fraud management.
 
 ---
 
 ## Features
 
-### Authentication
-
-- User Registration
-- User Login
-- JWT Authentication
-- Protected Routes
-- Role-Based Navigation
+- User registration and login
+- JWT authentication
+- Protected routes
+- Send money between users
+- View transaction history
+- Display account balance
+- Update account information
+- Admin fraud management dashboard
+- Client-side form validation
+- Structured backend error handling
+- Responsive interface
+- Custom 404 page
 
 ---
 
-### User Dashboard
+## Preview
 
-- View account balance
-- View profile information
-- Navigate through application features
+| Login | Dashboard |
+|-------|-----------|
+| <img src="./screenshots/login.png" width="450"/> | <img src="./screenshots/dashboard.png" width="450"/> |
 
-**Screenshot**
+| Send Money | Transactions |
+|------------|--------------|
+| <img src="./screenshots/send-money.png" width="450"/> | <img src="./screenshots/transactions.png" width="450"/> |
 
-![User Dashboard Screenshot](src/assets/dashboard.png)
+| Update Profile | Admin Dashboard |
+|----------------|-----------------|
+| <img src="./screenshots/update-profile.png" width="450"/> | <img src="./screenshots/admin-panel.png" width="450"/> |
 
-### Send Money
+---
 
-- Secure money transfers
-- Input validation
-- Backend integration
-- Automatic balance updates
-
-**Screenshot**
-
-![Send Money Screenshot](src/assets/send-money.png)
-
-### Transaction History
-
-- View all transactions
-- Filter by:
-  - All
-  - Sent
-  - Received
-- Transaction status indicators
-
-**Screenshot**
-
-![Transaction History Screenshot](src/assets/transactions.png)
-
-### Admin Panel
-
-Available only to administrators.
-
-- View fraud flags
-- Review suspicious transactions
-- Resolve fraud cases
-
-**Screenshot**
-
-![Admin Panel Screenshot](src/assets/admin-panel.png)
-
-## Technology Stack
-
-### Frontend
+## Tech Stack
 
 - React
+- Vite
 - React Router
 - Axios
+- JWT Decode
 - Tailwind CSS
-- Vite
-
-### Backend
-
-- Spring Boot
-- Spring Security
-- JWT Authentication
-- Hibernate / JPA
-- MySQL
 
 ---
 
-## Authentication Flow
+## Architecture
 
-```
-Login
-    │
-    ▼
-Receive JWT
-    │
-    ▼
-Store Authentication Context
-    │
-    ▼
-Protected Routes
-    │
-    ▼
-Secure API Requests
+The frontend communicates with the TransactGuard backend through a REST API using Axios. Authentication state is managed with React Context, while React Router protects authenticated pages from unauthorized access. The application performs client-side validation and presents structured validation and error responses returned by the backend, providing clear feedback to users during authentication, profile management, and transactions.
+
+---
+
+## 📂 Project Structure
+
+```text
+src/
+├── assets/
+├── components/
+├── context/
+├── pages/
+├── service/
+├── App.jsx
+└── main.jsx
 ```
 
 ---
 
-## Fraud Detection Workflow
-
-```
-Money Transfer
-      │
-      ▼
-Backend Fraud Engine
-      │
-      ▼
-Fraud Flag Created
-      │
-      ▼
-Administrator Reviews Flag
-      │
-      ▼
-Flag Resolved
-```
-
----
-
-## Running Locally
+## Getting Started
 
 ### Clone the repository
 
@@ -147,55 +90,33 @@ git clone https://github.com/Ofentse-Magidela/transactguard-frontend.git
 npm install
 ```
 
-### Start the development server
+### Run the development server
 
 ```bash
 npm run dev
 ```
 
-The application expects the Spring Boot backend to be running locally.
+---
+
+## 🔧 Backend
+
+This frontend communicates with the TransactGuard Spring Boot API.
+
+Repository:
+
+https://github.com/Ofentse-Magidela/transactguard
 
 ---
 
-## Project Structure
+## 🌍 Deployment
 
-```
-src
-│
-├── components/
-│
-├── context/
-│
-├── pages/
-│
-├── service/
-│
-├── routes/
-│
-└── main.jsx
-```
+Frontend
 
----
+https://transactguard.vercel.app
 
-## Future Improvements
+Backend API
 
-Planned enhancements include:
-
-- Docker deployment
-- CI/CD pipeline
-- Email verification
-- Audit logging
-- Rate limiting
-- Redis caching
-- Production cloud deployment
-
----
-
-## AI Usage
-
-AI was used **solely to accelerate the implementation of the Tailwind CSS user interface**.
-
-All application architecture, React component structure, routing, state management, authentication flow, API integration, conditional rendering, business logic, and backend implementation were designed and implemented by me.
+https://transactguard-backend.onrender.com
 
 ---
 
@@ -203,6 +124,11 @@ All application architecture, React component structure, routing, state manageme
 
 **Ofentse Magidela**
 
-Computer Science Student
+GitHub: https://github.com/Ofentse-Magidela
 
-Backend-focused Software Engineering Enthusiast
+---
+
+
+## 📄 License
+
+This project is for educational and portfolio purposes.
